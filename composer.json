@@ -1,0 +1,14 @@
+{
+    "name": "money/money",
+    "description": "money",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Money\\": "src/"
+        }
+    }
+}
