@@ -1,5 +1,5 @@
 <?php
-
+namespace money;
 /**
  * @link http://www.tomtop.com/
  * @copyright Copyright (c) 2016 TOMTOP
@@ -15,7 +15,7 @@ class Money extends Assert
     public function __construct($amount,Currency $currency)
     {
         if (!is_numeric ($amount)) {
-            throw new Exception('$amount must be an numeric');
+            throw new \Exception('$amount must be an numeric');
         }
 
         $this->amount   = $amount;
@@ -36,11 +36,8 @@ class Money extends Assert
     public static function fromString($value, $currency)
     {
         if (!is_string($value)) {
-            throw new Exception('$value must be a string');
+            throw new \Exception('$value must be a string');
         }
-
-        $currency = self::handleCurrencyArgument($currency);
-
         return new static(floatval($value), $currency);
     }
 

@@ -1,4 +1,5 @@
 <?php
+namespace money;
 
 /**
  * @link http://www.tomtop.com/
@@ -40,7 +41,7 @@ class Currency
         }
 
         if (!isset(self::$currencies[$currencyCode])) {
-            throw new Exception(
+            throw new \Exception(
                 sprintf('Unknown currency code "%s"', $currencyCode)
             );
         }

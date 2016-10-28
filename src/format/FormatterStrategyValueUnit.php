@@ -1,5 +1,7 @@
 <?php
 
+namespace money\format;
+use money\Money;
 /**
  * @link http://www.tomtop.com/
  * @copyright Copyright (c) 2016 TOMTOP
@@ -14,7 +16,7 @@ class FormatterStrategyValueUnit extends FormatterAbstract
     {
         if(isset($fractionDigits) && !is_int($fractionDigits))
         {
-            throw new Exception('$factionDigits must be int');
+            throw new \Exception('$factionDigits must be int');
         }
         $this->fractionDigits = $fractionDigits;
     }
@@ -29,7 +31,7 @@ class FormatterStrategyValueUnit extends FormatterAbstract
         }
         $this->handlePattern($unit,$this->fractionDigits);
         $local = $money->getCurrency()->getLocal();
-        $this->numberFormatter = new NumberFormatter($local,NumberFormatter::CURRENCY);
+        $this->numberFormatter = new \NumberFormatter($local,\NumberFormatter::CURRENCY);
         $this->numberFormatter->setPattern($this->pattern);
         return $this->numberFormatter->formatCurrency(
             $money->getAmount(),
