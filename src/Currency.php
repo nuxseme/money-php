@@ -34,7 +34,7 @@ class Currency
     //编码
     private $currencyCode;
 
-    public function __construct($currencyCode)
+    public function __construct($currencyCode = 'CNY')
     {
         if (!isset(self::$currencies[$currencyCode])) {
             $currencyCode = strtoupper($currencyCode);

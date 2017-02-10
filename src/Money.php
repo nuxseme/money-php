@@ -5,6 +5,8 @@ namespace money;
  * @copyright Copyright (c) 2016 TOMTOP
  * @license http://www.tomtop.com/license/
  */
+
+use money\format\FormatterAbstract;
 class Money extends Assert
 {
     //金额
@@ -12,19 +14,16 @@ class Money extends Assert
     //币种实例
     private $currency;
 
-    public function __construct($amount,Currency $currency)
+    public function __construct($amount, $currency = null)
     {
-        if (!is_numeric ($amount)) {
-            throw new \Exception('$amount must be an numeric');
-        }
-
-        $this->amount   = $amount;
-        $this->currency = $currency;
+        //守卫 Guard
+        $this->setAmount($amount);
+        $this->setCurrency($currency);
     }
 
     public function __toString()
     {
-        return $this->amount;
+        return (string)$this->amount;
     }
 
     //返回自身实例
@@ -33,7 +32,7 @@ class Money extends Assert
     }
 
     //传入金额字符串 返回money实例
-    public static function fromString($value, $currency)
+    public static function fromString($value, $currency = null)
     {
         if (!is_string($value)) {
             throw new \Exception('$value must be a string');
@@ -45,6 +44,31 @@ class Money extends Assert
     public function getAmount()
     {
         return $this->amount;
+    }
+
+    /**
+     * @param mixed $amount
+     */
+    private function setAmount($amount)
+    {
+        if(!is_numeric($amount)) {
+            throw new \InvalidArgumentException('amount must be a numeric');
+        }
+        $this->amount = $amount;
+    }
+
+    /**
+     * @param mixed $currency
+     */
+    private function setCurrency($currency = null)
+    {
+        if(!is_null($currency) && !($currency instanceof Currency)) {
+            throw new \InvalidArgumentException('currency must instance of Currency');
+        }
+        if(is_null($currency)) {
+            return $this->currency = new Currency();
+        }
+        return  $this->currency = $currency;
     }
     //返回保留的小数位
     public function getConvertedAmount($fractionDigits = null)
@@ -129,5 +153,9 @@ class Money extends Assert
         return $this->amount < $other->getAmount() ? -1 : 1;
     }
 
-
+    //根据策略返回格式
+    public function getFormatByStrategy(FormatterAbstract $formatterStrategy)
+    {
+        return $formatterStrategy->format($this);
+    }
 }
